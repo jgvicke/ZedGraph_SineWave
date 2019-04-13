@@ -69,11 +69,11 @@
             this.resumeScrolling.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resumeScrolling.Location = new System.Drawing.Point(9, 319);
-            this.resumeScrolling.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.resumeScrolling.Margin = new System.Windows.Forms.Padding(2);
             this.resumeScrolling.Name = "resumeScrolling";
             this.resumeScrolling.Size = new System.Drawing.Size(426, 30);
             this.resumeScrolling.TabIndex = 1;
-            this.resumeScrolling.Text = "Resume Scrolling";
+            this.resumeScrolling.Text = "Pause Scrolling";
             this.resumeScrolling.UseVisualStyleBackColor = true;
             this.resumeScrolling.Click += new System.EventHandler(this.resumeScrolling_Click);
             // 
@@ -84,7 +84,7 @@
             this.ClientSize = new System.Drawing.Size(442, 359);
             this.Controls.Add(this.resumeScrolling);
             this.Controls.Add(this.zedGraphControl1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "SineWave by John Vickers";
             this.Load += new System.EventHandler(this.Form1_Load);

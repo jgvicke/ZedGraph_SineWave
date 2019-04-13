@@ -88,12 +88,21 @@ namespace SineWave
 
         private void zedGraphControl1_ScrollEvent(object sender, ScrollEventArgs e)
         {
-            _scrolling = true; 
+            //_scrolling = true; 
         }
 
         private void resumeScrolling_Click(object sender, EventArgs e)
         {
-            _scrolling = false; 
+            if (_scrolling)
+            {
+                resumeScrolling.Text = @"Pause Scrolling";
+                _scrolling = false;
+            }
+            else
+            {
+                resumeScrolling.Text = @"Resume Scrolling";
+                _scrolling = true;
+            }
         }
 
     }
