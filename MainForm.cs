@@ -20,6 +20,8 @@ namespace SineWave
         private XDate _currentTime;
         private int _i;
 
+        private bool _scrolling = true;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             _currentTime = new XDate(DateTime.Now);
@@ -34,7 +36,6 @@ namespace SineWave
             _myPane.Title.Text = "Live Data";
             _myPane.XAxis.Title.Text = "Time";
             _myPane.YAxis.Title.Text = "Value";
-
 
             _myPane.YAxis.Scale.Min = -1.2;
             _myPane.YAxis.Scale.Max = 1.2;
@@ -57,24 +58,21 @@ namespace SineWave
 
         private void generateData_Tick(object sender, EventArgs e)
         {
-
-            for (var j = 0; j < 50; j++)
+            if (_scrolling)
             {
-                _i++;
-                _currentTime.AddSeconds(_timePart);
-                _points.Add(_currentTime, Math.Sin(_sinPart * _i));
-            }
+                for (var j = 0; j < 50; j++)
+                {
+                    _i++;
+                    _currentTime.AddSeconds(_timePart);
+                    _points.Add(_currentTime, Math.Sin(_sinPart * _i));
 
-            if (_i >= 15000)
-            {
-                //generateData.Enabled = false;
+                }
             }
-
         }
 
         private void graphUpdate_Tick(object sender, EventArgs e)
         {
-            if (!_scrolling)
+            if (_scrolling)
             {
                 _myPane.XAxis.Scale.Max = new XDate(_currentTime.DateTime.AddMilliseconds(0));
                 _myPane.XAxis.Scale.Min = new XDate(_currentTime.DateTime.AddMilliseconds(-1000));
@@ -84,8 +82,6 @@ namespace SineWave
             zedGraphControl1.Invalidate();
         }
 
-        private bool _scrolling;
-
         private void zedGraphControl1_ScrollEvent(object sender, ScrollEventArgs e)
         {
             //_scrolling = true; 
@@ -93,15 +89,15 @@ namespace SineWave
 
         private void resumeScrolling_Click(object sender, EventArgs e)
         {
-            if (_scrolling)
+            if (!_scrolling)
             {
                 resumeScrolling.Text = @"Pause Scrolling";
-                _scrolling = false;
+                _scrolling = true;
             }
             else
             {
                 resumeScrolling.Text = @"Resume Scrolling";
-                _scrolling = true;
+                _scrolling = false;
             }
         }
 
