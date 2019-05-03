@@ -5,6 +5,22 @@ using ZedGraph;
 
 namespace SineWave
 {
+    public static class ZedGraphExtensions
+    {
+        public static bool IsRising(this IPointList points)
+        {
+            if (points.Count < 2)
+                return false;
+
+            return points[points.Count - 1].Y > points[points.Count - 2].Y;
+        }
+
+        public static PointPair Last(this IPointList points)
+        {
+            return points[points.Count - 1];
+        }
+    }
+
     public partial class MainForm : Form
     {
         public MainForm()
