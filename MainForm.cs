@@ -30,6 +30,7 @@ namespace SineWave
 
         private GraphPane _myPane;
         private RollingPointPairList _points;
+        private RollingPointPairList _peaks;
 
         private double _sinPart;
         private double _timePart;
@@ -67,10 +68,20 @@ namespace SineWave
             _myPane.XAxis.Scale.MinorUnit = DateUnit.Millisecond;
             _myPane.XAxis.Scale.MinorStep = 250;
 
+            _peaks = new RollingPointPairList(15000);
+            var peaksCurve = _myPane.AddCurve("Peak Points", _peaks, Color.Red, SymbolType.Circle);
+            peaksCurve.Line.IsVisible = false;
+            peaksCurve.Symbol.Fill.Color = Color.Red;
+            peaksCurve.Symbol.Fill.Type = FillType.Solid;
+            peaksCurve.Symbol.Size = 10;
+
             _points = new RollingPointPairList(15000);
-            _myPane.AddCurve("Sine Wave", _points, Color.Blue, SymbolType.None);
+            var pointsCurve = _myPane.AddCurve("Sine Wave", _points, Color.Blue, SymbolType.None);
+            pointsCurve.Line.Width = 3;
 
         }
+
+        private bool _rising = false;
 
         private void generateData_Tick(object sender, EventArgs e)
         {
@@ -82,6 +93,14 @@ namespace SineWave
                     _currentTime.AddSeconds(_timePart);
                     _points.Add(_currentTime, Math.Sin(_sinPart * _i));
 
+                    if (_points.IsRising())
+                        _rising = true;
+
+                    if (_rising && !_points.IsRising())
+                    {
+                        _peaks.Add(_points.Last());
+                        _rising = false;
+                    }
                 }
             }
         }
